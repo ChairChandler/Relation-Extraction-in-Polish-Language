@@ -1,0 +1,1506 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{indentfirst}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language polish
+\language_package auto
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command bibtex8
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style polish
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Metody ekstrakcji relacji w korpusie języka polskiego
+\end_layout
+
+\begin_layout Author
+inż.
+ Adam Lewandowski
+\end_layout
+
+\begin_layout Section
+Wprowadzenie
+\end_layout
+
+\begin_layout Subsection
+Opis dziedziny problemu
+\end_layout
+
+\begin_layout Standard
+Dynamiczny rozwój Inżynierii Lingwistycznej w ostatniej dekadzie zwiększył
+ zainteresowanie osób biznesowych wykorzystaniem możliwości modeli języka
+ w celu zwiększenia wartości dodanej generowanej przez organizację.
+ Oczekiwania wobec modeli mogą być wysokie z uwagi na imponujące osiągnięcia
+ transformerów takich jak GPT czy BERT, które przyczyniają się do ograniczania
+ konieczności konstrukcji własnych rozwiązań, wykorzystując wiedzę o języku
+ wyindukowaną z wielu korpusów internetowych.
+ 
+\end_layout
+
+\begin_layout Standard
+Proces dopasowywania modeli języka do własnych zadań wymaga dostarczenia
+ dedykowanego zbioru danych, co bywa kosztowne przy pracy wykorzystującej
+ modele języków mało popularnych.
+ Przyczyną takiego stanu sytuacji jest najczęściej trudność osiągnięcia
+ zadowalających wyników modeli, które nie posiadają zdolności prawidłowej
+ analizy semantycznej lub syntaktycznej danego języka, jak również brak
+ pełnego zaangażowania społeczności w proces rozwoju narzędzi i zbiorów
+ danych w tym języku.
+ 
+\end_layout
+
+\begin_layout Standard
+Uproszczenie analizy języka pozwala na stworzenie rozwiązania problemu,
+ jednakże ogranicza to możliwości stosowania modeli języka.
+ Rozwiązaniem pośrednim jest wykorzystanie algorytmów Ekstrakcji Informacji
+ w celu wyodrębnienia encji i łączących ich relacji, które posiadają możliwość
+ wykonywania analizy semantycznej słów ograniczając przy tym wpływ analizy
+ syntaktycznej w procesie realizacji zadania.
+ Proces ekstrakcji encji, nazywany Wykrywaniem Encji, określa semantykę
+ wybranych słów, jednakże jest ona niewystarczająca do pełnego zrozumienia
+ znaczenia dokumentu.
+ 
+\end_layout
+
+\begin_layout Standard
+Encje określają uniwersalny kontekst statyczny dla słowa, natomiast zdanie
+ może być sekwencją wielu różnych permutacji encji, co wymusza zmianę kontekstu
+ danej encji.
+ Detekcja kontekstu encji w sekwencji może być zadaniem nietrywialnym, co
+ jest główną problematyką dziedziny 
+\emph on
+Word-sense disambiguation.
+ 
+\emph default
+Skuteczniejszym rozwiązaniem problemu wieloznaczności encji jest wykorzystanie
+ metod Ekstrakcji Relacji, które pozwalają określić semantykę między encjami.
+ 
+\end_layout
+
+\begin_layout Standard
+Istotnym problemem w wykorzystaniu metod Ekstrakcji Relacji w korpusie języka
+ polskiego jest niska ilość prac naukowych, narzędzi oraz zbiorów danych
+ poświęconych temu językowi.
+ Implikuje to hipotezę badawczą dotyczącą jakości wyekstraktowanych relacji
+ przy wykorzystaniu różnych metod, głównie dedykowanych językowi angielskiemu
+ oraz detekcji potencjalnych problemów w przypadku ich użycia.
+\end_layout
+
+\begin_layout Subsection
+Cel i zakres pracy
+\end_layout
+
+\begin_layout Standard
+Celem pracy jest analiza i ocena jakości metod ekstrakcji relacji wykorzystywany
+ch w dokumentach zapisanych w języku polskim oraz wyszczególnienie istnienia
+ potencjalnych problemów przy ich zastosowaniu.
+ 
+\end_layout
+
+\begin_layout Standard
+Realizacja celu wymaga starannego zaplanowania kolejności realizacji poszczególn
+ych zadań, ze względu na trudność w uzyskaniu materiałów dedykowanych językowi
+ polskiemu, a także badawczego charakteru pracy, cechującego się potencjalną
+ innowacyjnością, mogącą poszerzyć zainteresowanie zagranicznych inwestorów
+ w produkcję usług wykorzystujących język polski.
+ 
+\end_layout
+
+\begin_layout Standard
+Zdecydowano się na rozpoczęcie prac od wprowadzenia czytelnika do opisu
+ problemów, zdefiniowania zadań, które umożliwiają nakierowanie na potencjalne
+ rozwiązania wraz z opisem dostępnych metod, miar i zbiorów danych, opisane
+ w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sec:Opis-teoretyczny"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Następnie dokonano opisania metodologii badawczej przyjętej w niniejszej
+ pracy w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sec:Opis-eksperymentów"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ W rozdziale 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sec:Wyniki-eksperymentów"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ zamieszczone zostały porównania jakości metod Ekstrakcji Relacji w formie
+ metryk oraz osobistej mierze jakości stworzonych relacji.
+ Naznaczenie potencjalnych problemów wraz z wnioskami zostało umieszczone
+ w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sec:Analiza-wyników"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Rozdział 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sec:Podsumowanie"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ w zwięzły sposób określa całokształt pracy, natomiast w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sec:Możliwości-rozszerzenia-pracy"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ wyznaczone zostały kierunki dalszego rozwoju prac.
+\end_layout
+
+\begin_layout Standard
+Lista zadań zrealizowana w procesie realizacji pracy dyplomowej jest następująca
+:
+\end_layout
+
+\begin_layout Itemize
+zapoznanie się z tematyką dziedziny Ekstrakcji Relacji, dostępnych zbiorów
+ danych, metryk, metod,
+\end_layout
+
+\begin_layout Itemize
+wyszukanie i selekcja artykułów opublikowanych z ostatnich lat opisujących
+ metody ekstrakcji relacji,
+\end_layout
+
+\begin_layout Itemize
+wyszukanie i selekcja dostępnych zbiorów danych,
+\end_layout
+
+\begin_layout Itemize
+wybór odpowiednich miar porównawczych,
+\end_layout
+
+\begin_layout Itemize
+wykorzystanie kodu źródłowego modeli w celi przeprowadzenia ewaluacji na
+ zbiorze danych,
+\end_layout
+
+\begin_layout Itemize
+analiza wyników,
+\end_layout
+
+\begin_layout Itemize
+detekcja ewentualnych problemów w korpusie języka polskiego.
+\end_layout
+
+\begin_layout Section
+Powiązane prace
+\end_layout
+
+\begin_layout Standard
+Inspiracją do napisania poniższej pracy była praca doktorska autorstwa Aleksandr
+a Smywiński-Pohla, 
+\begin_inset Quotes pld
+\end_inset
+
+Automatyczna ekstrakcja relacji semantycznych z tekstów w języku polskim
+\begin_inset Quotes prd
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "POHL 2015"
+literal "false"
+
+\end_inset
+
+, w której autor poruszył temat aktualnego stanu wiedzy o dziedzinie Ekstrakcji
+ Relacji, występujące problemy w implementacji metod Ekstrakcji Relacji,
+ możliwe zastosowania oraz adaptację technik do dokumentów w języku polskim.
+ 
+\end_layout
+
+\begin_layout Standard
+Praca Mayank Kejriwal i innych, 
+\begin_inset Quotes pld
+\end_inset
+
+Knowledge Graphs Fundamentals
+\begin_inset Quotes prd
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "MAYA 2021"
+literal "false"
+
+\end_inset
+
+ pozwala wprowadzić czytelnika w tematykę Grafów Wiedzy, która jest powiązana
+ z zadaniem Ekstrakcji Relacji.
+ Autorzy przedstawili aktualny stan wiedzy w dziedzinie Ekstrakcji Relacji,
+ co stanowiło inspirację do napisania rozdziału teoretycznego poniższej
+ pracy.
+\end_layout
+
+\begin_layout Standard
+Czytelnik zainteresowany wykorzystaniem neuronowych modeli głębokich może
+ sięgnąć po artykuł Shantanu Kumar, 
+\begin_inset Quotes pld
+\end_inset
+
+A Survey of Deep Learning Methods for Relation Extraction
+\begin_inset Quotes prd
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SHAN 2017"
+literal "false"
+
+\end_inset
+
+.
+ Opisano w nim wykorzystanie modeli konwolucyjnych w zadaniu Ekstrakcji
+ Relacji oraz porównano trywialne w implementacji sieci konwolucyjne z zaawansow
+anymi wykorzystującymi mechanizm uważności.
+\end_layout
+
+\begin_layout Standard
+Aktualny przegląd prac nad dziedziną Ekstrakcji Relacji można znaleść w
+ artykule Sachin Pawar i innych, 
+\begin_inset Quotes pld
+\end_inset
+
+Relation Extraction : A Survey
+\begin_inset Quotes prd
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SACH 2017"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Opis teoretyczny
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Opis-teoretyczny"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Ekstrakcja informacji
+\end_layout
+
+\begin_layout Subsubsection
+Opis pojęcia
+\end_layout
+
+\begin_layout Standard
+Jak zdefiniowano w pracy 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "POHL 2015"
+literal "false"
+
+\end_inset
+
+, cyt.
+ 
+\begin_inset Quotes pld
+\end_inset
+
+Ekstrakcja informacji [ang.
+ information extraction] jest procesem nadawania znaczenia (interpretacji),
+ w którym przechodzi się, od opisu danych w terminach meta-języka, do opisu
+ w terminach języka przedmiotowego, dzieki czemu uzyskane informacje mogą
+ być bezpośrednio wykorzystane w zadaniach przetwarzania informacji.
+ Ekstrakcja informacji zwykle ogranicza się do interpretowania pewnego podzbioru
+ dostepnych informacji, istotnych z punktu widzenia realizowanego zadania.
+\begin_inset Quotes prd
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Proces przypisywania znaczeń nie modeluje semantyki sekwencji tokenów, ale
+ poszczególnych wyrażeń frazowych oraz istniejących relacji pomiędzy nimi,
+ przydatnymi dla realizacji określonego zadania.
+ Wyrażenia takie są zdefiniowane w pewnej ontologii dziedzinowej, dlatego
+ wyrażenia frazowe mogą posiadać przypisaną płytką semantyke.
+ Celem ekstrakcji informacji nie jest pełne zrozumienie semantyki tekstu,
+ ale wystarczających jej fragmentów pozwalających zrealizowanie określonego
+ zadania.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Obszary zastosowań
+\end_layout
+
+\begin_layout Standard
+Istnieje wiele obszarów zastosowań algorytmów ekstrakcji informacji, przykładowo
+:
+\end_layout
+
+\begin_layout Itemize
+wyszukiwanie informacji poprzez wykorzystywanie cząstkowych informacji w
+ dokumentach,
+\end_layout
+
+\begin_layout Itemize
+rozpoznawanie slotów w systemach dialogowych i generowanie odpowiedzi,
+\end_layout
+
+\begin_layout Itemize
+wypełnianie baz danych informacjami,
+\end_layout
+
+\begin_layout Itemize
+detekcja słów kluczowych,
+\end_layout
+
+\begin_layout Itemize
+generowanie streszczeń dokumentów,
+\end_layout
+
+\begin_layout Itemize
+wypełnianie szablonów.
+\end_layout
+
+\begin_layout Subsubsection
+Potencjalne problemy
+\end_layout
+
+\begin_layout Standard
+Wykorzystanie algorytmów ekstrakcji informacji wymaga przeanalizowania występują
+cych w nich problemów.
+ 
+\end_layout
+
+\begin_layout Standard
+Często występującym problemem jest wieloznaczność (polisemia) wyrażeń frazowych,
+ na którą składają się intepretacje wyrażeń w słownikach jak i interpretacje
+ zależne od kontekstu w którym występują.
+ Słownikowa definicja słowa 
+\begin_inset Quotes pld
+\end_inset
+
+zamek
+\begin_inset Quotes prd
+\end_inset
+
+ w 
+\emph on
+Słowniku Języka Polskiego
+\emph default
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SJP 2022"
+literal "false"
+
+\end_inset
+
+ przedstawia kilka możliwości intepretacji bezkontekstowej słowa - jako
+ 
+\begin_inset Quotes pld
+\end_inset
+
+urządzenie do zamykania drzwi
+\begin_inset Quotes prd
+\end_inset
+
+, 
+\begin_inset Quotes pld
+\end_inset
+
+urządzenie do łączenia lub zabezpieczania w ustalonym położeniu elementów
+ maszyny
+\begin_inset Quotes prd
+\end_inset
+
+ i 
+\begin_inset Quotes pld
+\end_inset
+
+okazała budowla mieszkalno-obronna
+\begin_inset Quotes prd
+\end_inset
+
+.
+ W słowniku 
+\emph on
+Wikisłownik
+\emph default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "WSLO 2022"
+literal "false"
+
+\end_inset
+
+ istnieje kilka dodatkowych znaczeń tj.
+ 
+\begin_inset Quotes pld
+\end_inset
+
+zakład penitencjarny lub jego wydzielona część o zaostrzonym rygorze
+\begin_inset Quotes prd
+\end_inset
+
+, 
+\begin_inset Quotes pld
+\end_inset
+
+w hokeju: zamknięcie przeciwnika w tercji, gdy drużyna atakująca rozgrywa
+ krążek w tercji przeciwnika nie pozwalając mu wyjść poza niebieską linię
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Jak można zauważyć istnieje pewna rozbieżność intepretacji pomiędzy słownikami
+ jak i wiele możliwości interpretacji danego wyrażenia.
+ Co więcej, wyrażenia współwystępujące mogą modyfikować znaczenie danego
+ wyrażenia frazowego jak choćby w zdaniu 
+\begin_inset Quotes pld
+\end_inset
+
+Odwiedziłem zamek w Malborku.
+\begin_inset Quotes prd
+\end_inset
+
+ wyrażenia 
+\begin_inset Quotes pld
+\end_inset
+
+odwiedziłem
+\begin_inset Quotes prd
+\end_inset
+
+ oraz 
+\begin_inset Quotes pld
+\end_inset
+
+w Malborku
+\begin_inset Quotes prd
+\end_inset
+
+ pozwalają intepretować słowo 
+\begin_inset Quotes pld
+\end_inset
+
+zamek
+\begin_inset Quotes prd
+\end_inset
+
+ w kontekście fortyfikacji.
+ W zdaniu 
+\begin_inset Quotes pld
+\end_inset
+
+Kupiłem zamek do drzwi.
+\begin_inset Quotes prd
+\end_inset
+
+ modyfikatorem semantyki słowa jest wyrażenie 
+\begin_inset Quotes pld
+\end_inset
+
+do drzwi
+\begin_inset Quotes prd
+\end_inset
+
+, które zmienia jego znaczenie na urządzenie do zamykania drzwi.
+ Pomimo prostszej analizy semantycznej tekstu problem wieloznaczności ma
+ znaczący wpływ na jakość realizacji pewnych zadań.
+\end_layout
+
+\begin_layout Standard
+Powiązanym problemem są wyrażenia metaforyczne, tworzące nowe znaczenia
+ intepretacyjne wyrażeń.
+ Język ewoluował na przestrzeni wieków, jednakże proces ten nie jest zakończony,
+ użytkownicy języka posiadają możliwość tworzenia nowych pojęć wykorzystując
+ złączenie już istniejących.
+ Prowadzić to może do sytuacji błędnej intepretacji wyrażeń ze względu na
+ dezaktualizację wiedzy o ich złączeniach.
+ Prawidłowa intepretacja takich wyrażeń jak 
+\begin_inset Quotes pld
+\end_inset
+
+pan młody
+\begin_inset Quotes prd
+\end_inset
+
+ czy 
+\begin_inset Quotes pld
+\end_inset
+
+urwanie głowy
+\begin_inset Quotes prd
+\end_inset
+
+ musi być poprzedzona procesem aktualizacji zapamiętanej semantyki wyrażeń
+ frazowych.
+ 
+\end_layout
+
+\begin_layout Standard
+Nazwy własne mogą powodować wiele niepożądanych problemów związanych z ich
+ licznością czy odmianą.
+ Ze względu na mnogość zapisu nazw własnych w procesie konstrukcji słowników
+ niemożliwe jest uwzględnienie wszystkich ich odmian.
+ Co więcej, istnieje również wiele możliwych odmian danego słowa.
+ Istnieją co prawda algorytmy pozwalające transformować wyrażenia do prostszych
+ form zachowujących większą część semantyki takie jak lematyzacja czy stemming,
+ nie rozwiązuje to jednak głównego problemu istnienia równoległych form
+ zapisu nazw własnych.
+\end_layout
+
+\begin_layout Standard
+Ostatnim z poruszanych problemów jest niezgodność pomiędzy anotatorami w
+ procesie anotacji zbiorów danych.
+ Różnice mogą być zauważalne przy kategoryzacji, wyborze odpowiednich zakresów
+ frazy czy określenia relacji pomiędzy frazami.
+ Może to wynikać z osobistych preferencji anotatorów, błędów selekcji pól
+ czy nieprawidłowej analizie tekstu.
+ Można określić konsensus w wyborze anotacji, należy jednak brać pod uwagę
+ możliwość wystąpienia problemu biasu w zbiorze danych.
+\end_layout
+
+\begin_layout Subsubsection
+Zadania w procesie ekstrakcji informacji
+\end_layout
+
+\begin_layout Standard
+Dziedzina ekstrakcji informacji realizuje następujące typy zadań:
+\end_layout
+
+\begin_layout Enumerate
+rozpoznawanie jednostek nazewniczych (ang.
+ named entity recognition),
+\end_layout
+
+\begin_layout Enumerate
+ekstrakcja relacji (ang.
+ relation extraction),
+\end_layout
+
+\begin_layout Enumerate
+rozpoznawanie wyrażeń wspólodnoszacych sie, (ang.
+ coreference resolution),
+\end_layout
+
+\begin_layout Enumerate
+rozpoznawanie wyrażeń temporalnych (ang.
+ temporal expression recognition),
+\end_layout
+
+\begin_layout Enumerate
+ekstrakcja zdarzeń (ang.
+ event extraction),
+\end_layout
+
+\begin_layout Enumerate
+wypelnianie szablonów (ang.
+ template filling).
+\end_layout
+
+\begin_layout Subsection
+Rozpoznawanie jednostek nazewniczych
+\end_layout
+
+\begin_layout Subsubsection
+Opis pojęcia
+\end_layout
+
+\begin_layout Standard
+Rozpoznawanie jednostek nazewniczych (ang.
+ Named Entity Recognition) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "MOHA 2018"
+literal "false"
+
+\end_inset
+
+ polega na wyszukaniu w dokumencie wyrażeń, które spełniają założenia pozwalając
+e na przypisanie ich do kategorii semantycznej.
+ Założeniem może być spełnialność wyrażeń regularnych lub występowanie wyrażenia
+ w wybranej ontologii.
+ Kategorią semantyczną nazywamy zbiór obiektów posiadających identyczną
+ lub podobną semantykę.
+ Przykładem może być rozpoznanie wyrażeń reprezentujących pewne osoby, organizac
+je, lokalizacje, liczby czy numery rejestracyjne.
+ Dostępne narzędzia zazwyczaj posiadają predefiniowane zbiory znaczników
+ takie jak 
+\series bold
+ORG
+\series default
+ (organizacje), 
+\series bold
+PER
+\series default
+ (osoby), 
+\series bold
+LOC
+\series default
+ (lokalizacje).
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SPAC 2022"
+literal "false"
+
+\end_inset
+
+ Istnieje możliwość zdefiniowania własnych zbiorów znaczników oraz rozszerzenie
+ już istniejących.
+\end_layout
+
+\begin_layout Subsubsection
+Obszary zastosowań
+\end_layout
+
+\begin_layout Standard
+Istnieje wiele możliwych obszarów zastosowań metod rozpoznawania jednostek
+ nazewniczych, w oparciu o przykładowe przypadki użycia 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SHAS 2018"
+literal "false"
+
+\end_inset
+
+ można wyróżnić: 
+\end_layout
+
+\begin_layout Itemize
+kategoryzację dokumentów wykorzystującą ekstrakcję słów kluczowych,
+\end_layout
+
+\begin_layout Itemize
+wyszukiwanie relewantnych dokumentów zawierających występujące jednostki
+ nazewnicze w zapytaniu,
+\end_layout
+
+\begin_layout Itemize
+rekomendację dla czytelników w oparciu o występowanie podobnych jednostek
+ nazewniczych,
+\end_layout
+
+\begin_layout Itemize
+przyśpieszenie procesu udzielenia wsparcia klientowi.
+\end_layout
+
+\begin_layout Subsection
+Ekstrakcja relacji
+\end_layout
+
+\begin_layout Subsubsection
+Metody
+\end_layout
+
+\begin_layout Standard
+Na czym polega, co na wejsciu, wyjsciu itp co oznacza
+\end_layout
+
+\begin_layout Itemize
+EType oraz EType+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+EType 
+\series default
+jest metodą indukującą relacje z konkatenacji dwóch typów encji nazwanych,
+ 
+\begin_inset Formula $t_{e_{head}}$
+\end_inset
+
+oraz 
+\begin_inset Formula $t_{e_{tail}}$
+\end_inset
+
+.
+ Wektory zero-jedynkowe (ang.
+ one-hot-encoding) dla 
+\begin_inset Formula $t_{e_{head}}$
+\end_inset
+
+oraz 
+\begin_inset Formula $t_{e_{tail}}$
+\end_inset
+
+podawane są na wejściu jednowarstwowej neuronowej sieci głębokiej, która
+ określa prawdopodobieństwo łączących je relacji.
+ Najbardziej prawdopodobne złączenia są wyekstraktowane.
+ Model neuronowy jest uczony w sposób nienadzorowany.
+ (na jakiej podst.
+ prawd? co jest na wejściu? framework opisywania)
+\end_layout
+
+\begin_layout Subsubsection
+Zbiory danych
+\end_layout
+
+\begin_layout Itemize
+NYT-FB
+\end_layout
+
+\begin_layout Itemize
+TACRED (The TAC Relation Extraction Dataset) 
+\end_layout
+
+\begin_layout Itemize
+SemEval-2010 Task 8
+\end_layout
+
+\begin_layout Itemize
+FewRel
+\end_layout
+
+\begin_layout Itemize
+WMORC
+\end_layout
+
+\begin_layout Itemize
+NeuralOIE
+\end_layout
+
+\begin_layout Itemize
+ClausIE
+\end_layout
+
+\begin_layout Itemize
+Raw Web/Parallel En-Sp
+\end_layout
+
+\begin_layout Itemize
+Wiki80
+\end_layout
+
+\begin_layout Itemize
+NYT10
+\end_layout
+
+\begin_layout Itemize
+BSNLP 2019 Shared Task
+\end_layout
+
+\begin_layout Itemize
+ACE 2003/2004/2005/2007
+\end_layout
+
+\begin_layout Subsubsection
+Miary porównawcze
+\end_layout
+
+\begin_layout Itemize
+Accuracy - how close or far off a given set of measurements (observations
+ or readings) are to their true value [zrobic swoimi slowami!!!]
+\end_layout
+
+\begin_layout Itemize
+F-score - The F1 score is the harmonic mean of the precision and recall.
+ The more generic {
+\backslash
+displaystyle F_{
+\backslash
+beta }}F_{
+\backslash
+beta } score applies additional weights, valuing one of precision or recall
+ more than the other.
+ The highest possible value of an F-score is 1.0, indicating perfect precision
+ and recall, and the lowest possible value is 0, if either the precision
+ or the recall is zero [zrobic swoimi slowami!!!]
+\end_layout
+
+\begin_layout Itemize
+AUC
+\end_layout
+
+\begin_layout Itemize
+Precision - how close or dispersed the measurements are to each other [zrobic
+ swoimi slowami!!!]
+\end_layout
+
+\begin_layout Itemize
+Recall
+\end_layout
+
+\begin_layout Itemize
+RPM
+\end_layout
+
+\begin_layout Itemize
+REM
+\end_layout
+
+\begin_layout Itemize
+SM
+\end_layout
+
+\begin_layout Itemize
+V
+\end_layout
+
+\begin_layout Itemize
+ARI
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $B^{3}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+P@N
+\end_layout
+
+\begin_layout Itemize
+Silhouette
+\end_layout
+
+\begin_layout Section
+Opis eksperymentów
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Opis-eksperymentów"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Zbiory danych
+\end_layout
+
+\begin_layout Standard
+Ze względu na niską dostępność dobrej jakości zbiorów danych polskojęzycznych
+ dedykowanych zadaniu ekstrakcji relacji zdecydowano się na wykonanie procesu
+ translacji angielskojęzycznych zbiorów danych.
+ W tym celu wykorzystano darmowy i publicznie dostępny translator Google.
+ Rozważano również wykorzystanie konkurencyjnego produktu DeepL, który cechuje
+ się możliwością wyboru stylu tekstu, jednak ze względu na ograniczenia
+ w ilości znaków do przetłumaczenia zrezygnowano z tego pomysłu.
+\end_layout
+
+\begin_layout Subsubsection
+SemEval
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+SemEval-2010 Task 8
+\series default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "HEND 2010"
+literal "false"
+
+\end_inset
+
+ skupia się na zadaniu klasyfikacji wieloetykietowanej.
+\end_layout
+
+\begin_layout Standard
+Dane zostały pobrane z serwisu Kaggle.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SEME 2020"
+literal "false"
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsubsection
+FewRel
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+FewRel
+\series default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "HAN 2018"
+literal "false"
+
+\end_inset
+
+ jest zbiorem danych dedykowanym zadaniu ekstrakcji relacji w oparciu o
+ technikę uczenia kilku-strzałowego.
+ Składa się z relacji wyekstraktowanych z różnych domen dziedzinowych znajdujący
+ch się w korpusie języka formalnego.
+ Dane zostały automatycznie wyekstraktowane z angielskojęzycznej strony
+ Wikipedii przy wykorzystaniu relacji znajdujących się w ontologicznej bazie
+ wiedzy Wikidata oraz poprawione manualnie przez anotatorów.
+\end_layout
+
+\begin_layout Standard
+Zbiór danych można uzyskać w dwóch wersjach: 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "FEWR 2018"
+literal "false"
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+wersji 1.0, zawierącej 64 relacje w zbiorze treningowym oraz 16 relacji w
+ zbiorze walidacyjnym 
+\end_layout
+
+\begin_layout Itemize
+wersji 2.0, poprawiającej aspekt zbytniej różnorodności domen dziedzinowych
+ oraz problemy wynikające ze stosowania uczenia kilku-strzałowego
+\end_layout
+
+\begin_layout Standard
+W poniższej pracy zdecydowano się na użycie zbioru danych w wersji 1.0 z
+ uwagi na jego prostotę w adaptacji do przetłumaczenia na język polski.
+ Ze względu na różnorodność analizowanych technik ekstrakcji relacji zdecydowano
+ się ograniczyć zbiór danych do zbioru treningowego, ponieważ relacje występując
+e w obu podzbiorach nie posiadają części wspólnej.
+\end_layout
+
+\begin_layout Standard
+Relacje oraz encje opisane w zbiorze danych są zapisane w postaci identyfikatora
+ obiektu występującego w bazie ontologicznej Wikidata.
+ W celu uzyskania semantycznego opisu należało odnaleść referencję do obiektu
+ oraz odczytać odpowiednie informacje.
+ Kolejność występowania encji w relacji jest znacząca.
+\end_layout
+
+\begin_layout Subsection
+Miary porównawcze
+\end_layout
+
+\begin_layout Standard
+Dla zadań uczenia nadzorowanego i pół-nadzorowanego postanowiono wykorzystać
+ metryki precision, recall oraz F-score, natomiast dla zadań uczenia nienadzorow
+anego metrykę Silhouette.
+\end_layout
+
+\begin_layout Section
+Wyniki eksperymentów
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Wyniki-eksperymentów"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Analiza wyników
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Analiza-wyników"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Podsumowanie
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Podsumowanie"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Możliwości rozszerzenia pracy
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Możliwości-rozszerzenia-pracy"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Słownik
+\end_layout
+
+\begin_layout Section*
+Lista wymboli
+\end_layout
+
+\begin_layout Section*
+Podziękowanie
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "TRAN 2020"
+key " TRAN 2020"
+literal "false"
+
+\end_inset
+
+Thy Thy Tran et al., Revisiting Unsupervised Relation Extraction, Association
+ for Computational Linguistics, 2020, s.
+ 7498–7505, 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://aclanthology.org/2020.acl-main.669/
+\end_layout
+
+\end_inset
+
+, dostęp wolny dnia 7 czerwca 2022r.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "POHL 2015"
+key "POHL 2015"
+literal "false"
+
+\end_inset
+
+Aleksander Smywiński-Pohl, Automatyczna ekstrakcja relacji semantycznych
+ z tekstów w języku polskim, niepublikowana praca doktorska, Akademia Górniczo-H
+utnicza im.
+ Stanislawa Staszica w Krakowie, 2015.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "MAYA 2021"
+key "MAYA 2021"
+literal "false"
+
+\end_inset
+
+Mayank Kejriwal et al., Knowledge Graphs Fundamentals, Techniques, and Applicatio
+ns, MIT Press, 2021, s.
+ 125-147, 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://mitpress.mit.edu/books/knowledge-graphs
+\end_layout
+
+\end_inset
+
+, dostęp zastrzeżony dnia 2022r.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "HEND 2010"
+key "HEND 2010"
+literal "false"
+
+\end_inset
+
+Iris Hendrickx et al., SemEval-2010 Task 8: Multi-Way Classification of Semantic
+ Relations between Pairs of Nominals, Association for Computational Linguistics,
+ Uppsala, Szwecja, 2010, s.
+ 33–38, 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://aclanthology.org/S10-1006/
+\end_layout
+
+\end_inset
+
+, dostęp wolny dnia 7 czerwca 2022r.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "HAN 2018"
+key "HAN 2018"
+literal "true"
+
+\end_inset
+
+Xu Han et al., FewRel: A Large-Scale Supervised Few-Shot Relation Classification
+ Dataset with State-of-the-Art Evaluation, Association for Computational
+ Linguistics, Bruksela, Belgia, 2018, s.
+ 4803–4809, 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://aclanthology.org/D18-1514/
+\end_layout
+
+\end_inset
+
+, dostęp wolny dnia 7 czerwca 2022r.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "SHAN 2017"
+key "SHAN 2017"
+literal "false"
+
+\end_inset
+
+Shantanu Kumar, A Survey of Deep Learning Methods for Relation Extraction,
+ 2017, 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://www.researchgate.net/publication/316859287_A_Survey_of_Deep_Learning_Metho
+ds_for_Relation_Extraction
+\end_layout
+
+\end_inset
+
+, dostęp wolny dnia 8 czerwca 2022r.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "SACH 2017"
+key "SACH 2017"
+literal "false"
+
+\end_inset
+
+Sachin Pawar et al., Relation Extraction : A Survey, 2017, 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://arxiv.org/abs/1712.05191
+\end_layout
+
+\end_inset
+
+, dostęp wolny dnia 8 czerwca 2022r.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "SEME 2020"
+key "SEME 2020"
+literal "false"
+
+\end_inset
+
+Adres do pobrania zbioru danych SemEval, 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://www.kaggle.com/datasets/drtoshi/semeval2010-task-8-dataset?resource=downlo
+ad
+\end_layout
+
+\end_inset
+
+, dostęp wolny dnia 7 czerwca 2022r.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "FEWR 2018"
+key "FEWR 2018"
+literal "false"
+
+\end_inset
+
+Adres do pobrania zbioru danych FewRel, 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://www.zhuhao.me/fewrel/
+\end_layout
+
+\end_inset
+
+, dostęp wolny dnia 7 czerwca 2022r.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "SJP 2022"
+key "SJP 2022"
+literal "false"
+
+\end_inset
+
+Słownik Języka Polskiego, definicje słowa zamek, 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://sjp.pwn.pl/slowniki/zamek.html
+\end_layout
+
+\end_inset
+
+, dostęp wolny dnia 12 czerwca 2022r.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "WSLO 2022"
+key "WSLO 2022"
+literal "false"
+
+\end_inset
+
+Wikisłownik, definicje słowa zamek, 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://pl.wiktionary.org/wiki/zamek
+\end_layout
+
+\end_inset
+
+, dostęp wolny dnia 12 czerwca 2022r.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "SPAC 2022"
+key "SPAC 2022"
+literal "false"
+
+\end_inset
+
+Opis jednostek nazewniczych w narzędziu SpaCy, 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://spacy.io/usage/linguistic-features#named-entities
+\end_layout
+
+\end_inset
+
+, dostęp wolny dnia 12 czerwca 2022r.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "SHAS 2018"
+key "SHAS 2018"
+literal "false"
+
+\end_inset
+
+Shashank Gupta, Named Entity Recognition: Applications and Use Cases, Towards
+ Data Science, 2018, 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://towardsdatascience.com/named-entity-recognition-applications-and-use-case
+s-acdbf57d595e
+\end_layout
+
+\end_inset
+
+, dostęp limitowany dnia 12 czerwca 2022r.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "MOHA 2018"
+key "MOHA 2018"
+literal "false"
+
+\end_inset
+
+Mohan Gupta, A Review of Named Entity Recognition (NER) Using Automatic
+ Summarization of Resumes, Towards Data Science, 2018, 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://towardsdatascience.com/a-review-of-named-entity-recognition-ner-using-aut
+omatic-summarization-of-resumes-5248a75de175
+\end_layout
+
+\end_inset
+
+, dostęp limitowany dnia 12 czerwca 2022r.
+\end_layout
+
+\end_body
+\end_document

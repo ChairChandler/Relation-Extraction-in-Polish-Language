@@ -1,0 +1,495 @@
+%% LyX 2.3.6 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[polish]{article}
+\usepackage[T1]{fontenc}
+\usepackage{color}
+\usepackage{babel}
+\usepackage{url}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=true]
+ {hyperref}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{indentfirst}
+
+\makeatother
+
+\begin{document}
+\title{Metody ekstrakcji relacji w korpusie j\k{e}zyka polskiego}
+\author{in\.{z}. Adam Lewandowski}
+\maketitle
+
+\section{Wprowadzenie}
+
+\subsection{Opis dziedziny problemu}
+
+Dynamiczny rozw\'{o}j In\.{z}ynierii Lingwistycznej w ostatniej dekadzie
+zwi\k{e}kszy\l{} zainteresowanie os\'{o}b biznesowych wykorzystaniem
+mo\.{z}liwo\'{s}ci modeli j\k{e}zyka w celu zwi\k{e}kszenia warto\'{s}ci
+dodanej generowanej przez organizacj\k{e}. Oczekiwania wobec modeli
+mog\k{a} by\'{c} wysokie z uwagi na imponuj\k{a}ce osi\k{a}gni\k{e}cia
+transformer\'{o}w takich jak GPT czy BERT, kt\'{o}re przyczyniaj\k{a}
+si\k{e} do ograniczania konieczno\'{s}ci konstrukcji w\l asnych rozwi\k{a}za\'{n},
+wykorzystuj\k{a}c wiedz\k{e} o j\k{e}zyku wyindukowan\k{a} z wielu
+korpus\'{o}w internetowych. 
+
+Proces dopasowywania modeli j\k{e}zyka do w\l asnych zada\'{n} wymaga
+dostarczenia dedykowanego zbioru danych, co bywa kosztowne przy pracy
+wykorzystuj\k{a}cej modele j\k{e}zyk\'{o}w ma\l o popularnych. Przyczyn\k{a}
+takiego stanu sytuacji jest najcz\k{e}\'{s}ciej trudno\'{s}\'{c} osi\k{a}gni\k{e}cia
+zadowalaj\k{a}cych wynik\'{o}w modeli, kt\'{o}re nie posiadaj\k{a}
+zdolno\'{s}ci prawid\l owej analizy semantycznej lub syntaktycznej
+danego j\k{e}zyka, jak r\'{o}wnie\.{z} brak pe\l nego zaanga\.{z}owania
+spo\l eczno\'{s}ci w proces rozwoju narz\k{e}dzi i zbior\'{o}w danych
+w tym j\k{e}zyku. 
+
+Uproszczenie analizy j\k{e}zyka pozwala na stworzenie rozwi\k{a}zania
+problemu, jednak\.{z}e ogranicza to mo\.{z}liwo\'{s}ci stosowania
+modeli j\k{e}zyka. Rozwi\k{a}zaniem po\'{s}rednim jest wykorzystanie
+algorytm\'{o}w Ekstrakcji Informacji w celu wyodr\k{e}bnienia encji
+i \l \k{a}cz\k{a}cych ich relacji, kt\'{o}re posiadaj\k{a} mo\.{z}liwo\'{s}\'{c}
+wykonywania analizy semantycznej s\l \'{o}w ograniczaj\k{a}c przy
+tym wp\l yw analizy syntaktycznej w procesie realizacji zadania. Proces
+ekstrakcji encji, nazywany Wykrywaniem Encji, okre\'{s}la semantyk\k{e}
+wybranych s\l \'{o}w, jednak\.{z}e jest ona niewystarczaj\k{a}ca do
+pe\l nego zrozumienia znaczenia dokumentu. 
+
+Encje okre\'{s}laj\k{a} uniwersalny kontekst statyczny dla s\l owa,
+natomiast zdanie mo\.{z}e by\'{c} sekwencj\k{a} wielu r\'{o}\.{z}nych
+permutacji encji, co wymusza zmian\k{e} kontekstu danej encji. Detekcja
+kontekstu encji w sekwencji mo\.{z}e by\'{c} zadaniem nietrywialnym,
+co jest g\l \'{o}wn\k{a} problematyk\k{a} dziedziny \emph{Word-sense
+disambiguation. }Skuteczniejszym rozwi\k{a}zaniem problemu wieloznaczno\'{s}ci
+encji jest wykorzystanie metod Ekstrakcji Relacji, kt\'{o}re pozwalaj\k{a}
+okre\'{s}li\'{c} semantyk\k{e} mi\k{e}dzy encjami. 
+
+Istotnym problemem w wykorzystaniu metod Ekstrakcji Relacji w korpusie
+j\k{e}zyka polskiego jest niska ilo\'{s}\'{c} prac naukowych, narz\k{e}dzi
+oraz zbior\'{o}w danych po\'{s}wi\k{e}conych temu j\k{e}zykowi. Implikuje
+to hipotez\k{e} badawcz\k{a} dotycz\k{a}c\k{a} jako\'{s}ci wyekstraktowanych
+relacji przy wykorzystaniu r\'{o}\.{z}nych metod, g\l \'{o}wnie dedykowanych
+j\k{e}zykowi angielskiemu oraz detekcji potencjalnych problem\'{o}w
+w przypadku ich u\.{z}ycia.
+
+\subsection{Cel i zakres pracy}
+
+Celem pracy jest analiza i ocena jako\'{s}ci metod ekstrakcji relacji
+wykorzystywanych w dokumentach zapisanych w j\k{e}zyku polskim oraz
+wyszczeg\'{o}lnienie istnienia potencjalnych problem\'{o}w przy ich
+zastosowaniu. 
+
+Realizacja celu wymaga starannego zaplanowania kolejno\'{s}ci realizacji
+poszczeg\'{o}lnych zada\'{n}, ze wzgl\k{e}du na trudno\'{s}\'{c} w
+uzyskaniu materia\l \'{o}w dedykowanych j\k{e}zykowi polskiemu, a
+tak\.{z}e badawczego charakteru pracy, cechuj\k{a}cego si\k{e} potencjaln\k{a}
+innowacyjno\'{s}ci\k{a}, mog\k{a}c\k{a} poszerzy\'{c} zainteresowanie
+zagranicznych inwestor\'{o}w w produkcj\k{e} us\l ug wykorzystuj\k{a}cych
+j\k{e}zyk polski. 
+
+Zdecydowano si\k{e} na rozpocz\k{e}cie prac od wprowadzenia czytelnika
+do opisu problem\'{o}w, zdefiniowania zada\'{n}, kt\'{o}re umo\.{z}liwiaj\k{a}
+nakierowanie na potencjalne rozwi\k{a}zania wraz z opisem dost\k{e}pnych
+metod, miar i zbior\'{o}w danych, opisane w rozdziale \nameref{sec:Opis-teoretyczny}.
+Nast\k{e}pnie dokonano opisania metodologii badawczej przyj\k{e}tej
+w niniejszej pracy w rozdziale \nameref{sec:Opis-eksperyment=0000F3w}.
+W rozdziale \nameref{sec:Wyniki-eksperyment=0000F3w} zamieszczone
+zosta\l y por\'{o}wnania jako\'{s}ci metod Ekstrakcji Relacji w formie
+metryk oraz osobistej mierze jako\'{s}ci stworzonych relacji. Naznaczenie
+potencjalnych problem\'{o}w wraz z wnioskami zosta\l o umieszczone
+w rozdziale \nameref{sec:Analiza-wynik=0000F3w}. Rozdzia\l{} \nameref{sec:Podsumowanie}
+w zwi\k{e}z\l y spos\'{o}b okre\'{s}la ca\l okszta\l t pracy, natomiast
+w rozdziale \nameref{sec:Mo=00017Cliwo=00015Bci-rozszerzenia-pracy}
+wyznaczone zosta\l y kierunki dalszego rozwoju prac.
+
+Lista zada\'{n} zrealizowana w procesie realizacji pracy dyplomowej
+jest nast\k{e}puj\k{a}ca:
+\begin{itemize}
+\item zapoznanie si\k{e} z tematyk\k{a} dziedziny Ekstrakcji Relacji, dost\k{e}pnych
+zbior\'{o}w danych, metryk, metod,
+\item wyszukanie i selekcja artyku\l \'{o}w opublikowanych z ostatnich lat
+opisuj\k{a}cych metody ekstrakcji relacji,
+\item wyszukanie i selekcja dost\k{e}pnych zbior\'{o}w danych,
+\item wyb\'{o}r odpowiednich miar por\'{o}wnawczych,
+\item wykorzystanie kodu \'{z}r\'{o}d\l owego modeli w celi przeprowadzenia
+ewaluacji na zbiorze danych,
+\item analiza wynik\'{o}w,
+\item detekcja ewentualnych problem\'{o}w w korpusie j\k{e}zyka polskiego.
+\end{itemize}
+
+\section{Powi\k{a}zane prace}
+
+Inspiracj\k{a} do napisania poni\.{z}szej pracy by\l a praca doktorska
+autorstwa Aleksandra Smywi\'{n}ski-Pohla, ,,Automatyczna ekstrakcja
+relacji semantycznych z tekst\'{o}w w j\k{e}zyku polskim'' \cite{POHL 2015},
+w kt\'{o}rej autor poruszy\l{} temat aktualnego stanu wiedzy o dziedzinie
+Ekstrakcji Relacji, wyst\k{e}puj\k{a}ce problemy w implementacji metod
+Ekstrakcji Relacji, mo\.{z}liwe zastosowania oraz adaptacj\k{e} technik
+do dokument\'{o}w w j\k{e}zyku polskim. 
+
+Praca Mayank Kejriwal i innych, ,,Knowledge Graphs Fundamentals''
+\cite{MAYA 2021} pozwala wprowadzi\'{c} czytelnika w tematyk\k{e}
+Graf\'{o}w Wiedzy, kt\'{o}ra jest powi\k{a}zana z zadaniem Ekstrakcji
+Relacji. Autorzy przedstawili aktualny stan wiedzy w dziedzinie Ekstrakcji
+Relacji, co stanowi\l o inspiracj\k{e} do napisania rozdzia\l u teoretycznego
+poni\.{z}szej pracy.
+
+Czytelnik zainteresowany wykorzystaniem neuronowych modeli g\l \k{e}bokich
+mo\.{z}e si\k{e}gn\k{a}\'{c} po artyku\l{} Shantanu Kumar, ,,A Survey
+of Deep Learning Methods for Relation Extraction'' \cite{SHAN 2017}.
+Opisano w nim wykorzystanie modeli konwolucyjnych w zadaniu Ekstrakcji
+Relacji oraz por\'{o}wnano trywialne w implementacji sieci konwolucyjne
+z zaawansowanymi wykorzystuj\k{a}cymi mechanizm uwa\.{z}no\'{s}ci.
+
+Aktualny przegl\k{a}d prac nad dziedzin\k{a} Ekstrakcji Relacji mo\.{z}na
+znale\'{s}\'{c} w artykule Sachin Pawar i innych, ,,Relation Extraction
+: A Survey'' \cite{SACH 2017}.
+
+\section{Opis teoretyczny\label{sec:Opis-teoretyczny}}
+
+\subsection{Ekstrakcja informacji}
+
+\subsubsection{Opis poj\k{e}cia}
+
+Jak zdefiniowano w pracy \cite{POHL 2015}, cyt. ,,Ekstrakcja informacji
+{[}ang. information extraction{]} jest procesem nadawania znaczenia
+(interpretacji), w kt\'{o}rym przechodzi si\k{e}, od opisu danych
+w terminach meta-j\k{e}zyka, do opisu w terminach j\k{e}zyka przedmiotowego,
+dzieki czemu uzyskane informacje mog\k{a} by\'{c} bezpo\'{s}rednio
+wykorzystane w zadaniach przetwarzania informacji. Ekstrakcja informacji
+zwykle ogranicza si\k{e} do interpretowania pewnego podzbioru dostepnych
+informacji, istotnych z punktu widzenia realizowanego zadania.'' 
+
+Proces przypisywania znacze\'{n} nie modeluje semantyki sekwencji
+token\'{o}w, ale poszczeg\'{o}lnych wyra\.{z}e\'{n} frazowych oraz
+istniej\k{a}cych relacji pomi\k{e}dzy nimi, przydatnymi dla realizacji
+okre\'{s}lonego zadania. Wyra\.{z}enia takie s\k{a} zdefiniowane w
+pewnej ontologii dziedzinowej, dlatego wyra\.{z}enia frazowe mog\k{a}
+posiada\'{c} przypisan\k{a} p\l ytk\k{a} semantyke. Celem ekstrakcji
+informacji nie jest pe\l ne zrozumienie semantyki tekstu, ale wystarczaj\k{a}cych
+jej fragment\'{o}w pozwalaj\k{a}cych zrealizowanie okre\'{s}lonego
+zadania. 
+
+\subsubsection{Obszary zastosowa\'{n}}
+
+Istnieje wiele obszar\'{o}w zastosowa\'{n} algorytm\'{o}w ekstrakcji
+informacji, przyk\l adowo:
+\begin{itemize}
+\item wyszukiwanie informacji poprzez wykorzystywanie cz\k{a}stkowych informacji
+w dokumentach,
+\item rozpoznawanie slot\'{o}w w systemach dialogowych i generowanie odpowiedzi,
+\item wype\l nianie baz danych informacjami,
+\item detekcja s\l \'{o}w kluczowych,
+\item generowanie streszcze\'{n} dokument\'{o}w,
+\item wype\l nianie szablon\'{o}w.
+\end{itemize}
+
+\subsubsection{Potencjalne problemy}
+
+Wykorzystanie algorytm\'{o}w ekstrakcji informacji wymaga przeanalizowania
+wyst\k{e}puj\k{a}cych w nich problem\'{o}w. 
+
+Cz\k{e}sto wyst\k{e}puj\k{a}cym problemem jest wieloznaczno\'{s}\'{c}
+(polisemia) wyra\.{z}e\'{n} frazowych, na kt\'{o}r\k{a} sk\l adaj\k{a}
+si\k{e} intepretacje wyra\.{z}e\'{n} w s\l ownikach jak i interpretacje
+zale\.{z}ne od kontekstu w kt\'{o}rym wyst\k{e}puj\k{a}. S\l ownikowa
+definicja s\l owa ,,zamek'' w \emph{S\l owniku J\k{e}zyka Polskiego}\cite{SJP 2022}
+przedstawia kilka mo\.{z}liwo\'{s}ci intepretacji bezkontekstowej
+s\l owa - jako ,,urz\k{a}dzenie do zamykania drzwi'', ,,urz\k{a}dzenie
+do \l \k{a}czenia lub zabezpieczania w ustalonym po\l o\.{z}eniu element\'{o}w
+maszyny'' i ,,okaza\l a budowla mieszkalno-obronna''. W s\l owniku
+\emph{Wikis\l ownik} \cite{WSLO 2022} istnieje kilka dodatkowych
+znacze\'{n} tj. ,,zak\l ad penitencjarny lub jego wydzielona cz\k{e}\'{s}\'{c}
+o zaostrzonym rygorze'', ,,w hokeju: zamkni\k{e}cie przeciwnika
+w tercji, gdy dru\.{z}yna atakuj\k{a}ca rozgrywa kr\k{a}\.{z}ek w
+tercji przeciwnika nie pozwalaj\k{a}c mu wyj\'{s}\'{c} poza niebiesk\k{a}
+lini\k{e}''. Jak mo\.{z}na zauwa\.{z}y\'{c} istnieje pewna rozbie\.{z}no\'{s}\'{c}
+intepretacji pomi\k{e}dzy s\l ownikami jak i wiele mo\.{z}liwo\'{s}ci
+interpretacji danego wyra\.{z}enia. Co wi\k{e}cej, wyra\.{z}enia wsp\'{o}\l wyst\k{e}puj\k{a}ce
+mog\k{a} modyfikowa\'{c} znaczenie danego wyra\.{z}enia frazowego
+jak cho\'{c}by w zdaniu ,,Odwiedzi\l em zamek w Malborku.'' wyra\.{z}enia
+,,odwiedzi\l em'' oraz ,,w Malborku'' pozwalaj\k{a} intepretowa\'{c}
+s\l owo ,,zamek'' w kontek\'{s}cie fortyfikacji. W zdaniu ,,Kupi\l em
+zamek do drzwi.'' modyfikatorem semantyki s\l owa jest wyra\.{z}enie
+,,do drzwi'', kt\'{o}re zmienia jego znaczenie na urz\k{a}dzenie
+do zamykania drzwi. Pomimo prostszej analizy semantycznej tekstu problem
+wieloznaczno\'{s}ci ma znacz\k{a}cy wp\l yw na jako\'{s}\'{c} realizacji
+pewnych zada\'{n}.
+
+Powi\k{a}zanym problemem s\k{a} wyra\.{z}enia metaforyczne, tworz\k{a}ce
+nowe znaczenia intepretacyjne wyra\.{z}e\'{n}. J\k{e}zyk ewoluowa\l{}
+na przestrzeni wiek\'{o}w, jednak\.{z}e proces ten nie jest zako\'{n}czony,
+u\.{z}ytkownicy j\k{e}zyka posiadaj\k{a} mo\.{z}liwo\'{s}\'{c} tworzenia
+nowych poj\k{e}\'{c} wykorzystuj\k{a}c z\l \k{a}czenie ju\.{z} istniej\k{a}cych.
+Prowadzi\'{c} to mo\.{z}e do sytuacji b\l \k{e}dnej intepretacji wyra\.{z}e\'{n}
+ze wzgl\k{e}du na dezaktualizacj\k{e} wiedzy o ich z\l \k{a}czeniach.
+Prawid\l owa intepretacja takich wyra\.{z}e\'{n} jak ,,pan m\l ody''
+czy ,,urwanie g\l owy'' musi by\'{c} poprzedzona procesem aktualizacji
+zapami\k{e}tanej semantyki wyra\.{z}e\'{n} frazowych. 
+
+Nazwy w\l asne mog\k{a} powodowa\'{c} wiele niepo\.{z}\k{a}danych
+problem\'{o}w zwi\k{a}zanych z ich liczno\'{s}ci\k{a} czy odmian\k{a}.
+Ze wzgl\k{e}du na mnogo\'{s}\'{c} zapisu nazw w\l asnych w procesie
+konstrukcji s\l ownik\'{o}w niemo\.{z}liwe jest uwzgl\k{e}dnienie
+wszystkich ich odmian. Co wi\k{e}cej, istnieje r\'{o}wnie\.{z} wiele
+mo\.{z}liwych odmian danego s\l owa. Istniej\k{a} co prawda algorytmy
+pozwalaj\k{a}ce transformowa\'{c} wyra\.{z}enia do prostszych form
+zachowuj\k{a}cych wi\k{e}ksz\k{a} cz\k{e}\'{s}\'{c} semantyki takie
+jak lematyzacja czy stemming, nie rozwi\k{a}zuje to jednak g\l \'{o}wnego
+problemu istnienia r\'{o}wnoleg\l ych form zapisu nazw w\l asnych.
+
+Ostatnim z poruszanych problem\'{o}w jest niezgodno\'{s}\'{c} pomi\k{e}dzy
+anotatorami w procesie anotacji zbior\'{o}w danych. R\'{o}\.{z}nice
+mog\k{a} by\'{c} zauwa\.{z}alne przy kategoryzacji, wyborze odpowiednich
+zakres\'{o}w frazy czy okre\'{s}lenia relacji pomi\k{e}dzy frazami.
+Mo\.{z}e to wynika\'{c} z osobistych preferencji anotator\'{o}w, b\l \k{e}d\'{o}w
+selekcji p\'{o}l czy nieprawid\l owej analizie tekstu. Mo\.{z}na okre\'{s}li\'{c}
+konsensus w wyborze anotacji, nale\.{z}y jednak bra\'{c} pod uwag\k{e}
+mo\.{z}liwo\'{s}\'{c} wyst\k{a}pienia problemu biasu w zbiorze danych.
+
+\subsubsection{Zadania w procesie ekstrakcji informacji}
+
+Dziedzina ekstrakcji informacji realizuje nast\k{e}puj\k{a}ce typy
+zada\'{n}:
+\begin{enumerate}
+\item rozpoznawanie jednostek nazewniczych (ang. named entity recognition),
+\item ekstrakcja relacji (ang. relation extraction),
+\item rozpoznawanie wyra\.{z}e\'{n} wsp\'{o}lodnoszacych sie, (ang. coreference
+resolution),
+\item rozpoznawanie wyra\.{z}e\'{n} temporalnych (ang. temporal expression
+recognition),
+\item ekstrakcja zdarze\'{n} (ang. event extraction),
+\item wypelnianie szablon\'{o}w (ang. template filling).
+\end{enumerate}
+
+\subsection{Rozpoznawanie jednostek nazewniczych}
+
+\subsubsection{Opis poj\k{e}cia}
+
+Rozpoznawanie jednostek nazewniczych (ang. Named Entity Recognition)
+\cite{MOHA 2018} polega na wyszukaniu w dokumencie wyra\.{z}e\'{n},
+kt\'{o}re spe\l niaj\k{a} za\l o\.{z}enia pozwalaj\k{a}ce na przypisanie
+ich do kategorii semantycznej. Za\l o\.{z}eniem mo\.{z}e by\'{c} spe\l nialno\'{s}\'{c}
+wyra\.{z}e\'{n} regularnych lub wyst\k{e}powanie wyra\.{z}enia w wybranej
+ontologii. Kategori\k{a} semantyczn\k{a} nazywamy zbi\'{o}r obiekt\'{o}w
+posiadaj\k{a}cych identyczn\k{a} lub podobn\k{a} semantyk\k{e}. Przyk\l adem
+mo\.{z}e by\'{c} rozpoznanie wyra\.{z}e\'{n} reprezentuj\k{a}cych
+pewne osoby, organizacje, lokalizacje, liczby czy numery rejestracyjne.
+Dost\k{e}pne narz\k{e}dzia zazwyczaj posiadaj\k{a} predefiniowane
+zbiory znacznik\'{o}w takie jak \textbf{ORG} (organizacje), \textbf{PER}
+(osoby), \textbf{LOC} (lokalizacje). \cite{SPAC 2022} Istnieje mo\.{z}liwo\'{s}\'{c}
+zdefiniowania w\l asnych zbior\'{o}w znacznik\'{o}w oraz rozszerzenie
+ju\.{z} istniej\k{a}cych.
+
+\subsubsection{Obszary zastosowa\'{n}}
+
+Istnieje wiele mo\.{z}liwych obszar\'{o}w zastosowa\'{n} metod rozpoznawania
+jednostek nazewniczych, w oparciu o przyk\l adowe przypadki u\.{z}ycia
+\cite{SHAS 2018} mo\.{z}na wyr\'{o}\.{z}ni\'{c}: 
+\begin{itemize}
+\item kategoryzacj\k{e} dokument\'{o}w wykorzystuj\k{a}c\k{a} ekstrakcj\k{e}
+s\l \'{o}w kluczowych,
+\item wyszukiwanie relewantnych dokument\'{o}w zawieraj\k{a}cych wyst\k{e}puj\k{a}ce
+jednostki nazewnicze w zapytaniu,
+\item rekomendacj\k{e} dla czytelnik\'{o}w w oparciu o wyst\k{e}powanie
+podobnych jednostek nazewniczych,
+\item przy\'{s}pieszenie procesu udzielenia wsparcia klientowi.
+\end{itemize}
+
+\subsection{Ekstrakcja relacji}
+
+\subsubsection{Metody}
+
+Na czym polega, co na wejsciu, wyjsciu itp co oznacza
+\begin{itemize}
+\item EType oraz EType+
+\end{itemize}
+\textbf{EType }jest metod\k{a} indukuj\k{a}c\k{a} relacje z konkatenacji
+dw\'{o}ch typ\'{o}w encji nazwanych, $t_{e_{head}}$oraz $t_{e_{tail}}$.
+Wektory zero-jedynkowe (ang. one-hot-encoding) dla $t_{e_{head}}$oraz
+$t_{e_{tail}}$podawane s\k{a} na wej\'{s}ciu jednowarstwowej neuronowej
+sieci g\l \k{e}bokiej, kt\'{o}ra okre\'{s}la prawdopodobie\'{n}stwo
+\l \k{a}cz\k{a}cych je relacji. Najbardziej prawdopodobne z\l \k{a}czenia
+s\k{a} wyekstraktowane. Model neuronowy jest uczony w spos\'{o}b nienadzorowany.
+(na jakiej podst. prawd? co jest na wej\'{s}ciu? framework opisywania)
+
+\subsubsection{Zbiory danych}
+\begin{itemize}
+\item NYT-FB
+\item TACRED (The TAC Relation Extraction Dataset) 
+\item SemEval-2010 Task 8
+\item FewRel
+\item WMORC
+\item NeuralOIE
+\item ClausIE
+\item Raw Web/Parallel En-Sp
+\item Wiki80
+\item NYT10
+\item BSNLP 2019 Shared Task
+\item ACE 2003/2004/2005/2007
+\end{itemize}
+
+\subsubsection{Miary por\'{o}wnawcze}
+\begin{itemize}
+\item Accuracy - how close or far off a given set of measurements (observations
+or readings) are to their true value {[}zrobic swoimi slowami!!!{]}
+\item F-score - The F1 score is the harmonic mean of the precision and recall.
+The more generic \{\textbackslash displaystyle F\_\{\textbackslash beta
+\}\}F\_\{\textbackslash beta \} score applies additional weights,
+valuing one of precision or recall more than the other. The highest
+possible value of an F-score is 1.0, indicating perfect precision
+and recall, and the lowest possible value is 0, if either the precision
+or the recall is zero {[}zrobic swoimi slowami!!!{]}
+\item AUC
+\item Precision - how close or dispersed the measurements are to each other
+{[}zrobic swoimi slowami!!!{]}
+\item Recall
+\item RPM
+\item REM
+\item SM
+\item V
+\item ARI
+\item $B^{3}$
+\item P@N
+\item Silhouette
+\end{itemize}
+
+\section{Opis eksperyment\'{o}w\label{sec:Opis-eksperyment=0000F3w}}
+
+\subsection{Zbiory danych}
+
+Ze wzgl\k{e}du na nisk\k{a} dost\k{e}pno\'{s}\'{c} dobrej jako\'{s}ci
+zbior\'{o}w danych polskoj\k{e}zycznych dedykowanych zadaniu ekstrakcji
+relacji zdecydowano si\k{e} na wykonanie procesu translacji angielskoj\k{e}zycznych
+zbior\'{o}w danych. W tym celu wykorzystano darmowy i publicznie dost\k{e}pny
+translator Google. Rozwa\.{z}ano r\'{o}wnie\.{z} wykorzystanie konkurencyjnego
+produktu DeepL, kt\'{o}ry cechuje si\k{e} mo\.{z}liwo\'{s}ci\k{a}
+wyboru stylu tekstu, jednak ze wzgl\k{e}du na ograniczenia w ilo\'{s}ci
+znak\'{o}w do przet\l umaczenia zrezygnowano z tego pomys\l u.
+
+\subsubsection{SemEval}
+
+\textbf{SemEval-2010 Task 8} \cite{HEND 2010} skupia si\k{e} na zadaniu
+klasyfikacji wieloetykietowanej.
+
+Dane zosta\l y pobrane z serwisu Kaggle. \cite{SEME 2020} 
+
+\subsubsection{FewRel}
+
+\textbf{FewRel} \cite{HAN 2018} jest zbiorem danych dedykowanym zadaniu
+ekstrakcji relacji w oparciu o technik\k{e} uczenia kilku-strza\l owego.
+Sk\l ada si\k{e} z relacji wyekstraktowanych z r\'{o}\.{z}nych domen
+dziedzinowych znajduj\k{a}cych si\k{e} w korpusie j\k{e}zyka formalnego.
+Dane zosta\l y automatycznie wyekstraktowane z angielskoj\k{e}zycznej
+strony Wikipedii przy wykorzystaniu relacji znajduj\k{a}cych si\k{e}
+w ontologicznej bazie wiedzy Wikidata oraz poprawione manualnie przez
+anotator\'{o}w.
+
+Zbi\'{o}r danych mo\.{z}na uzyska\'{c} w dw\'{o}ch wersjach: \cite{FEWR 2018} 
+\begin{itemize}
+\item wersji 1.0, zawier\k{a}cej 64 relacje w zbiorze treningowym oraz 16
+relacji w zbiorze walidacyjnym 
+\item wersji 2.0, poprawiaj\k{a}cej aspekt zbytniej r\'{o}\.{z}norodno\'{s}ci
+domen dziedzinowych oraz problemy wynikaj\k{a}ce ze stosowania uczenia
+kilku-strza\l owego
+\end{itemize}
+W poni\.{z}szej pracy zdecydowano si\k{e} na u\.{z}ycie zbioru danych
+w wersji 1.0 z uwagi na jego prostot\k{e} w adaptacji do przet\l umaczenia
+na j\k{e}zyk polski. Ze wzgl\k{e}du na r\'{o}\.{z}norodno\'{s}\'{c}
+analizowanych technik ekstrakcji relacji zdecydowano si\k{e} ograniczy\'{c}
+zbi\'{o}r danych do zbioru treningowego, poniewa\.{z} relacje wyst\k{e}puj\k{a}ce
+w obu podzbiorach nie posiadaj\k{a} cz\k{e}\'{s}ci wsp\'{o}lnej.
+
+Relacje oraz encje opisane w zbiorze danych s\k{a} zapisane w postaci
+identyfikatora obiektu wyst\k{e}puj\k{a}cego w bazie ontologicznej
+Wikidata. W celu uzyskania semantycznego opisu nale\.{z}a\l o odnale\'{s}\'{c}
+referencj\k{e} do obiektu oraz odczyta\'{c} odpowiednie informacje.
+Kolejno\'{s}\'{c} wyst\k{e}powania encji w relacji jest znacz\k{a}ca.
+
+\subsection{Miary por\'{o}wnawcze}
+
+Dla zada\'{n} uczenia nadzorowanego i p\'{o}\l -nadzorowanego postanowiono
+wykorzysta\'{c} metryki precision, recall oraz F-score, natomiast
+dla zada\'{n} uczenia nienadzorowanego metryk\k{e} Silhouette.
+
+\section{Wyniki eksperyment\'{o}w\label{sec:Wyniki-eksperyment=0000F3w}}
+
+\section{Analiza wynik\'{o}w\label{sec:Analiza-wynik=0000F3w}}
+
+\section{Podsumowanie\label{sec:Podsumowanie}}
+
+\section{Mo\.{z}liwo\'{s}ci rozszerzenia pracy\label{sec:Mo=00017Cliwo=00015Bci-rozszerzenia-pracy}}
+
+\section*{S\l ownik}
+
+\section*{Lista wymboli}
+
+\section*{Podzi\k{e}kowanie}
+\begin{thebibliography}{TRAN 2020}
+\bibitem[TRAN 2020]{TRAN 2020}Thy Thy Tran et al., Revisiting Unsupervised
+Relation Extraction, Association for Computational Linguistics, 2020,
+s. 7498--7505, \url{https://aclanthology.org/2020.acl-main.669/},
+dost\k{e}p wolny dnia 7 czerwca 2022r.
+
+\bibitem[POHL 2015]{POHL 2015}Aleksander Smywi\'{n}ski-Pohl, Automatyczna
+ekstrakcja relacji semantycznych z tekst\'{o}w w j\k{e}zyku polskim,
+niepublikowana praca doktorska, Akademia G\'{o}rniczo-Hutnicza im.
+Stanislawa Staszica w Krakowie, 2015.
+
+\bibitem[MAYA 2021]{MAYA 2021}Mayank Kejriwal et al., Knowledge Graphs
+Fundamentals, Techniques, and Applications, MIT Press, 2021, s. 125-147,
+\url{https://mitpress.mit.edu/books/knowledge-graphs}, dost\k{e}p
+zastrze\.{z}ony dnia 2022r.
+
+\bibitem[HEND 2010]{HEND 2010}Iris Hendrickx et al., SemEval-2010
+Task 8: Multi-Way Classification of Semantic Relations between Pairs
+of Nominals, Association for Computational Linguistics, Uppsala, Szwecja,
+2010, s. 33--38, \url{https://aclanthology.org/S10-1006/}, dost\k{e}p
+wolny dnia 7 czerwca 2022r.
+
+\bibitem[HAN 2018]{HAN 2018}Xu Han et al., FewRel: A Large-Scale
+Supervised Few-Shot Relation Classification Dataset with State-of-the-Art
+Evaluation, Association for Computational Linguistics, Bruksela, Belgia,
+2018, s. 4803--4809, \url{https://aclanthology.org/D18-1514/}, dost\k{e}p
+wolny dnia 7 czerwca 2022r.
+
+\bibitem[SHAN 2017]{SHAN 2017}Shantanu Kumar, A Survey of Deep Learning
+Methods for Relation Extraction, 2017, \url{https://www.researchgate.net/publication/316859287_A_Survey_of_Deep_Learning_Methods_for_Relation_Extraction},
+dost\k{e}p wolny dnia 8 czerwca 2022r.
+
+\bibitem[SACH 2017]{SACH 2017}Sachin Pawar et al., Relation Extraction
+: A Survey, 2017, \url{https://arxiv.org/abs/1712.05191}, dost\k{e}p
+wolny dnia 8 czerwca 2022r.
+
+\bibitem[SEME 2020]{SEME 2020}Adres do pobrania zbioru danych SemEval,
+\url{https://www.kaggle.com/datasets/drtoshi/semeval2010-task-8-dataset?resource=download},
+dost\k{e}p wolny dnia 7 czerwca 2022r.
+
+\bibitem[FEWR 2018]{FEWR 2018}Adres do pobrania zbioru danych FewRel,
+\url{https://www.zhuhao.me/fewrel/}, dost\k{e}p wolny dnia 7 czerwca
+2022r.
+
+\bibitem[SJP 2022]{SJP 2022}S\l ownik J\k{e}zyka Polskiego, definicje
+s\l owa zamek, \url{https://sjp.pwn.pl/slowniki/zamek.html}, dost\k{e}p
+wolny dnia 12 czerwca 2022r.
+
+\bibitem[WSLO 2022]{WSLO 2022}Wikis\l ownik, definicje s\l owa zamek,
+\url{https://pl.wiktionary.org/wiki/zamek}, dost\k{e}p wolny dnia
+12 czerwca 2022r.
+
+\bibitem[SPAC 2022]{SPAC 2022}Opis jednostek nazewniczych w narz\k{e}dziu
+SpaCy, \url{https://spacy.io/usage/linguistic-features#named-entities},
+dost\k{e}p wolny dnia 12 czerwca 2022r.
+
+\bibitem[SHAS 2018]{SHAS 2018}Shashank Gupta, Named Entity Recognition:
+Applications and Use Cases, Towards Data Science, 2018, \url{https://towardsdatascience.com/named-entity-recognition-applications-and-use-cases-acdbf57d595e},
+dost\k{e}p limitowany dnia 12 czerwca 2022r.
+
+\bibitem[MOHA 2018]{MOHA 2018}Mohan Gupta, A Review of Named Entity
+Recognition (NER) Using Automatic Summarization of Resumes, Towards
+Data Science, 2018, \url{https://towardsdatascience.com/a-review-of-named-entity-recognition-ner-using-automatic-summarization-of-resumes-5248a75de175},
+dost\k{e}p limitowany dnia 12 czerwca 2022r.
+\end{thebibliography}
+
+\end{document}

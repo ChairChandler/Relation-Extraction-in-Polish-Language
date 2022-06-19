@@ -1,0 +1,717 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{indentfirst}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language polish
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Metody ekstrakcji relacji w korpusie języka polskiego
+\end_layout
+
+\begin_layout Author
+inż.
+ Adam Lewandowski
+\end_layout
+
+\begin_layout Section
+Wprowadzenie
+\end_layout
+
+\begin_layout Subsection
+Opis dziedziny problemu
+\end_layout
+
+\begin_layout Standard
+Dynamiczny rozwój Inżynierii Lingwistycznej w ostatniej dekadzie zwiększył
+ zainteresowanie osób biznesowych wykorzystaniem możliwości modeli języka
+ w celu zwiększenia wartości dodanej generowanej przez organizację.
+ Oczekiwania wobec modeli mogą być wysokie z uwagi na imponujące osiągnięcia
+ transformerów takich jak GPT czy BERT, które przyczyniają się do ograniczania
+ konieczności konstrukcji własnych rozwiązań, wykorzystując wiedzę o języku
+ wyindukowaną z wielu korpusów internetowych.
+ 
+\end_layout
+
+\begin_layout Standard
+Proces dopasowywania modeli języka do własnych zadań wymaga dostarczenia
+ dedykowanego zbioru danych, co bywa kosztowne przy pracy wykorzystującej
+ modele języków mało popularnych.
+ Przyczyną takiego stanu sytuacji jest najczęściej trudność osiągnięcia
+ zadowalających wyników modeli, które nie posiadają zdolności prawidłowej
+ analizy semantycznej lub syntaktycznej danego języka, jak również brak
+ pełnego zaangażowania społeczności w proces rozwoju narzędzi i zbiorów
+ danych w tym języku.
+ 
+\end_layout
+
+\begin_layout Standard
+Uproszczenie analizy języka pozwala na stworzenie rozwiązania problemu,
+ jednakże ogranicza to możliwości stosowania modeli języka.
+ Rozwiązaniem pośrednim jest wykorzystanie algorytmów Ekstrakcji Informacji
+ w celu wyodrębnienia encji i łączących ich relacji, które posiadają możliwość
+ wykonywania analizy semantycznej słów ograniczając przy tym wpływ analizy
+ syntaktycznej w procesie realizacji zadania.
+ Proces ekstrakcji encji, nazywany Wykrywaniem Encji, określa semantykę
+ wybranych słów, jednakże jest ona niewystarczająca do pełnego zrozumienia
+ znaczenia dokumentu.
+ 
+\end_layout
+
+\begin_layout Standard
+Encje określają uniwersalny kontekst statyczny dla słowa, natomiast zdanie
+ może być sekwencją wielu różnych permutacji encji, co wymusza zmianę kontekstu
+ danej encji.
+ Detekcja kontekstu encji w sekwencji może być zadaniem nietrywialnym, co
+ jest główną problematyką dziedziny 
+\emph on
+Word-sense disambiguation.
+ 
+\emph default
+Skuteczniejszym rozwiązaniem problemu wieloznaczności encji jest wykorzystanie
+ metod Ekstrakcji Relacji, które pozwalają określić semantykę między encjami.
+ 
+\end_layout
+
+\begin_layout Standard
+Istotnym problemem w wykorzystaniu metod Ekstrakcji Relacji w korpusie języka
+ polskiego jest niska ilość prac naukowych, narzędzi oraz zbiorów danych
+ poświęconych temu językowi.
+ Implikuje to hipotezę badawczą dotyczącą jakości wyekstraktowanych relacji
+ przy wykorzystaniu różnych metod, głównie dedykowanych językowi angielskiemu
+ oraz detekcji potencjalnych problemów w przypadku ich użycia.
+\end_layout
+
+\begin_layout Subsection
+Cel i zakres pracy
+\end_layout
+
+\begin_layout Standard
+Celem pracy jest analiza i ocena jakości metod ekstrakcji relacji wykorzystywany
+ch w dokumentach zapisanych w języku polskim oraz wyszczególnienie istnienia
+ potencjalnych problemów przy ich zastosowaniu.
+ 
+\end_layout
+
+\begin_layout Standard
+Realizacja celu wymaga starannego zaplanowania kolejności realizacji poszczególn
+ych zadań, ze względu na trudność w uzyskaniu materiałów dedykowanych językowi
+ polskiemu, a także badawczego charakteru pracy, cechującego się potencjalną
+ innowacyjnością, mogącą poszerzyć zainteresowanie zagranicznych inwestorów
+ w produkcję usług wykorzystujących język polski.
+ 
+\end_layout
+
+\begin_layout Standard
+Zdecydowano się na rozpoczęcie prac od wprowadzenia czytelnika do opisu
+ problemów, zdefiniowania zadań, które umożliwiają nakierowanie na potencjalne
+ rozwiązania wraz z opisem dostępnych metod, miar i zbiorów danych, opisane
+ w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sec:Opis-teoretyczny"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Następnie dokonano opisania metodologii badawczej przyjętej w niniejszej
+ pracy w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sec:Opis-eksperymentów"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ W rozdziale 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sec:Wyniki-eksperymentów"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ zamieszczone zostały porównania jakości metod Ekstrakcji Relacji w formie
+ metryk oraz osobistej mierze jakości stworzonych relacji.
+ Naznaczenie potencjalnych problemów wraz z wnioskami zostało umieszczone
+ w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sec:Analiza-wyników"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Rozdział 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sec:Podsumowanie"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ w zwięzły sposób określa całokształt pracy, natomiast w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sec:Możliwości-rozszerzenia-pracy"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ wyznaczone zostały kierunki dalszego rozwoju prac.
+\end_layout
+
+\begin_layout Section
+Powiązane prace
+\end_layout
+
+\begin_layout Section
+Opis teoretyczny
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Opis-teoretyczny"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Ekstrakcja informacji
+\end_layout
+
+\begin_layout Standard
+Ekstrakcja Informacji może zostać podzielona na dwie grupy zadań, Wykrywania
+ Encji oraz Ekstrakcji Relacji.
+ W zadaniu wykrywania encji wykorzystuje się głównie analizę morfologiczną
+ w celu wyodrębnienia morfemów spełniających założenia przynależności do
+ klas zdefiniowanych w ontologii.
+ Ekstrakcja Relacji jest następstwem rezultatów zadania Wykrywania Encji,
+ a jej celem jest wyszukanie klasy będącej złączeniem encji.
+\end_layout
+
+\begin_layout Subsection
+Rozpoznawanie jednostek nazewniczych
+\end_layout
+
+\begin_layout Subsection
+Ekstrakcja relacji
+\end_layout
+
+\begin_layout Subsubsection
+Metody
+\end_layout
+
+\begin_layout Standard
+Na czym polega, co na wejsciu, wyjsciu itp co oznacza
+\end_layout
+
+\begin_layout Itemize
+EType oraz EType+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+EType 
+\series default
+jest metodą indukującą relacje z konkatenacji dwóch typów encji nazwanych,
+ 
+\begin_inset Formula $t_{e_{head}}$
+\end_inset
+
+oraz 
+\begin_inset Formula $t_{e_{tail}}$
+\end_inset
+
+.
+ Wektory zero-jedynkowe (ang.
+ one-hot-encoding) dla 
+\begin_inset Formula $t_{e_{head}}$
+\end_inset
+
+oraz 
+\begin_inset Formula $t_{e_{tail}}$
+\end_inset
+
+podawane są na wejściu jednowarstwowej neuronowej sieci głębokiej, która
+ określa prawdopodobieństwo łączących je relacji.
+ Najbardziej prawdopodobne złączenia są wyekstraktowane.
+ Model neuronowy jest uczony w sposób nienadzorowany.
+ (na jakiej podst.
+ prawd? co jest na wejściu? framework opisywania)
+\end_layout
+
+\begin_layout Subsubsection
+Zbiory danych
+\end_layout
+
+\begin_layout Itemize
+NYT-FB
+\end_layout
+
+\begin_layout Itemize
+TACRED
+\end_layout
+
+\begin_layout Itemize
+SemEval-2010 Task 8
+\end_layout
+
+\begin_layout Itemize
+FewRel
+\end_layout
+
+\begin_layout Itemize
+WMORC
+\end_layout
+
+\begin_layout Itemize
+NeuralOIE
+\end_layout
+
+\begin_layout Itemize
+ClausIE
+\end_layout
+
+\begin_layout Itemize
+Raw Web/Parallel En-Sp
+\end_layout
+
+\begin_layout Itemize
+Wiki80
+\end_layout
+
+\begin_layout Itemize
+NYT10
+\end_layout
+
+\begin_layout Itemize
+BSNLP 2019 Shared Task
+\end_layout
+
+\begin_layout Itemize
+ACE 2003/2004/2005/2007
+\end_layout
+
+\begin_layout Subsubsection
+Miary porównawcze
+\end_layout
+
+\begin_layout Itemize
+Accuracy - how close or far off a given set of measurements (observations
+ or readings) are to their true value [zrobic swoimi slowami!!!]
+\end_layout
+
+\begin_layout Itemize
+F-score - The F1 score is the harmonic mean of the precision and recall.
+ The more generic {
+\backslash
+displaystyle F_{
+\backslash
+beta }}F_{
+\backslash
+beta } score applies additional weights, valuing one of precision or recall
+ more than the other.
+ The highest possible value of an F-score is 1.0, indicating perfect precision
+ and recall, and the lowest possible value is 0, if either the precision
+ or the recall is zero [zrobic swoimi slowami!!!]
+\end_layout
+
+\begin_layout Itemize
+AUC
+\end_layout
+
+\begin_layout Itemize
+Precision - how close or dispersed the measurements are to each other [zrobic
+ swoimi slowami!!!]
+\end_layout
+
+\begin_layout Itemize
+Recall
+\end_layout
+
+\begin_layout Itemize
+RPM
+\end_layout
+
+\begin_layout Itemize
+REM
+\end_layout
+
+\begin_layout Itemize
+SM
+\end_layout
+
+\begin_layout Itemize
+V
+\end_layout
+
+\begin_layout Itemize
+ARI
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $B^{3}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+P@N
+\end_layout
+
+\begin_layout Itemize
+Silhouette
+\end_layout
+
+\begin_layout Section
+Opis eksperymentów
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Opis-eksperymentów"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Zbiory danych
+\end_layout
+
+\begin_layout Standard
+Ze względu na niską dostępność dobrej jakości zbiorów danych polskojęzycznych
+ dedykowanych zadaniu ekstrakcji relacji zdecydowano się na wykonanie procesu
+ translacji angielskojęzycznych zbiorów danych.
+ W tym celu wykorzystano darmowy i publicznie dostępny translator Google.
+ Rozważano również wykorzystanie konkurencyjnego produktu DeepL, który cechuje
+ się możliwością wyboru stylu tekstu, jednak ze względu na ograniczenia
+ w ilości znaków do przetłumaczenia zrezygnowano z tego pomysłu.
+\end_layout
+
+\begin_layout Subsubsection
+SemEval
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+SemEval-2010 Task 8
+\series default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "semeval"
+literal "false"
+
+\end_inset
+
+ skupia się na zadaniu klasyfikacji wieloetykietowanej.
+\end_layout
+
+\begin_layout Standard
+Dane zostały pobrane z serwisu Kaggle.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "semeval-download"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+FewRel
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+FewRel
+\series default
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fewrel"
+literal "false"
+
+\end_inset
+
+ jest zbiorem danych dedykowanym zadaniu ekstrakcji relacji w oparciu o
+ technikę uczenia kilku-strzałowego.
+ Składa się z relacji wyekstraktowanych z różnych domen dziedzinowych znajdujący
+ch się w korpusie języka formalnego.
+ Dane zostały automatycznie wyekstraktowane z angielskojęzycznej strony
+ Wikipedii przy wykorzystaniu relacji znajdujących się w ontologicznej bazie
+ wiedzy Wikidata oraz poprawione manualnie przez anotatorów.
+\end_layout
+
+\begin_layout Standard
+Zbiór danych można uzyskać w dwóch wersjach: 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fewrel-download"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+wersji 1.0, zawierącej 64 relacje w zbiorze treningowym oraz 16 relacji w
+ zbiorze walidacyjnym 
+\end_layout
+
+\begin_layout Itemize
+wersji 2.0, poprawiającej aspekt zbytniej różnorodności domen dziedzinowych
+ oraz problemy wynikające ze stosowania uczenia kilku-strzałowego
+\end_layout
+
+\begin_layout Standard
+W poniższej pracy zdecydowano się na użycie zbioru danych w wersji 1.0 z
+ uwagi na jego prostotę w adaptacji do przetłumaczenia na język polski.
+ Ze względu na różnorodność analizowanych technik ekstrakcji relacji zdecydowano
+ się ograniczyć zbiór danych do zbioru treningowego, ponieważ relacje występując
+e w obu podzbiorach nie posiadają części wspólnej.
+\end_layout
+
+\begin_layout Standard
+Relacje oraz encje opisane w zbiorze danych są zapisane w postaci identyfikatora
+ obiektu występującego w bazie ontologicznej Wikidata.
+ W celu uzyskania semantycznego opisu należało odnaleść referencję do obiektu
+ oraz odczytać odpowiednie informacje.
+ Kolejność występowania encji w relacji jest znacząca.
+\end_layout
+
+\begin_layout Subsection
+Miary porównawcze
+\end_layout
+
+\begin_layout Standard
+Dla zadań uczenia nadzorowanego i pół-nadzorowanego postanowiono wykorzystać
+ metryki precision, recall oraz F-score, natomiast dla zadań uczenia nienadzorow
+anego metrykę Silhouette.
+\end_layout
+
+\begin_layout Section
+Wyniki eksperymentów
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Wyniki-eksperymentów"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Analiza wyników
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Analiza-wyników"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Podsumowanie
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Podsumowanie"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Możliwości rozszerzenia pracy
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Możliwości-rozszerzenia-pracy"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Słownik
+\end_layout
+
+\begin_layout Section*
+Lista wymboli
+\end_layout
+
+\begin_layout Section*
+Podziękowanie
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "Revisiting Unsupervised Relation Extraction, Thy Thy Tran et. al., 2020"
+key "revisiting_unsupervised_relation_extraction"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "SemEval-2010 Task 8: Multi-Way Classification of Semantic Relations between Pairs of Nominals, Hendrickx et. al., 2010"
+key "semeval"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "FewRel: A Large-Scale Supervised Few-Shot Few-Shot Relation Classification Dataset with State-of-the-Art Evaluation, Xu Han et. al., 2018"
+key "fewrel"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "https://www.kaggle.com/datasets/drtoshi/semeval2010-task-8-dataset?resource=download"
+key "semeval-download"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "https://www.zhuhao.me/fewrel/"
+key "fewrel-download"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
